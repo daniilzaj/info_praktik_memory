@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 char memory[65536];
 char data[256 * 1024];
@@ -17,8 +18,13 @@ void print_number(unsigned long long x) {
     while (n) putchar(digits[--n]);
 }
 
-int main(void) {
-    setbuf(stdin, NULL);
+int main(int argc, char **argv) {
+    if (argc == 1) {
+        setbuf(stdin, NULL);
+    } else if (argc != 2 || strcmp(argv[1], "--buffered") != 0) {
+        print_text("Usage: ./main [--buffered]\n");
+        return 1;
+    }
     unsigned n = 0;
     int c, count = 0;
     while ((c = getchar()) >= '0' && c <= '9') {
